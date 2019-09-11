@@ -27,4 +27,24 @@ public class CustomerDao {
             return null;
         }
     }
+
+
+    public CustomerEntity getCustomerByPassword(final String password){
+        try{
+            return entityManager.createNamedQuery("customerByPassword",CustomerEntity.class).setParameter("password",password).getSingleResult();
+        } catch (NoResultException nre){
+            return null;
+        }
+    }
+
+    public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthEntity) {
+        entityManager.persist(customerAuthEntity);
+        return customerAuthEntity;
+    }
+
+    public void updateUser(final CustomerEntity customerEntity){
+        entityManager.merge(customerEntity);
+    }
+
+
 }

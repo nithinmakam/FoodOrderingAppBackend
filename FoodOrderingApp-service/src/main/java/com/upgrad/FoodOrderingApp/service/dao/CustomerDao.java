@@ -37,6 +37,22 @@ public class CustomerDao {
         }
     }
 
+    public CustomerEntity getCustomerByFirstName(final String firstname) {
+        try {
+            return entityManager.createNamedQuery("customerByFirstName", CustomerEntity.class).setParameter("firstname", firstname).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public CustomerEntity getCustomerByLastName(final String lastname) {
+        try {
+            return entityManager.createNamedQuery("customerByLastName", CustomerEntity.class).setParameter("lastname", lastname).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
     public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthEntity) {
         entityManager.persist(customerAuthEntity);
         return customerAuthEntity;
@@ -46,7 +62,7 @@ public class CustomerDao {
         entityManager.merge(customerEntity);
     }
 
-    public CustomerAuthEntity getUserAuthToken(final String access_token) {
+    public CustomerAuthEntity getCustomerAuthToken(final String access_token) {
         try {
             return entityManager.createNamedQuery("customerAuthTokenByAccessToken", CustomerAuthEntity.class).setParameter("access_token", access_token).getSingleResult();
         } catch (NoResultException nre) {
@@ -57,4 +73,6 @@ public class CustomerDao {
     public void updateCustomerEntity(final CustomerAuthEntity customerAuthEntity) {
         entityManager.merge(customerAuthEntity);
     }
+
+
 }

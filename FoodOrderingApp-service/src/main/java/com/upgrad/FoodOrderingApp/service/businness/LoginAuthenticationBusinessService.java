@@ -47,7 +47,7 @@ public class LoginAuthenticationBusinessService {
             customerAuthEntity.setLogin_at(now);
             customerAuthEntity.setExpires_at(expiresAt);
             customerDao.createAuthToken(customerAuthEntity);
-            customerDao.updateUser(customerEntity);
+            customerDao.updateCustomer(customerEntity);
 
             return customerAuthEntity;
         }

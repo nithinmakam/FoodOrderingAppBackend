@@ -1,13 +1,17 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
+import com.upgrad.FoodOrderingApp.api.controller.provider.BearerAuthDecoder;
 import com.upgrad.FoodOrderingApp.api.model.LoginResponse;
+import com.upgrad.FoodOrderingApp.api.model.LogoutResponse;
 import com.upgrad.FoodOrderingApp.api.model.SignupCustomerRequest;
 import com.upgrad.FoodOrderingApp.api.model.SignupCustomerResponse;
 import com.upgrad.FoodOrderingApp.service.businness.LoginAuthenticationBusinessService;
+import com.upgrad.FoodOrderingApp.service.businness.LogOutBusinessService;
 import com.upgrad.FoodOrderingApp.service.businness.SignUpBusinessService;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
+import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SignUpRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +36,9 @@ public class CustomerController {
 
     @Autowired
     private LoginAuthenticationBusinessService loginAuthenticationBusinessService;
+
+    @Autowired
+    private LogOutBusinessService logoutBusinessService;
 
     //1. signup endpoint
     @RequestMapping(method = RequestMethod.POST, path="/customer/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -68,6 +75,21 @@ public class CustomerController {
 
         return new ResponseEntity<LoginResponse>(loginResponse,headers,HttpStatus.OK);
     }
+
+    //3. logout endpoint
+    @RequestMapping(method = RequestMethod.POST, path = "/customer/logout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<LogoutResponse> logout(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException{
+
+        final BearerAuthDecoder authDecoder = new BearerAuthDecoder(authorization);
+        logoutBusinessService.logout(authDecoder.getAccessToken());
+        CustomerEntity loggedoutUserEntity = logoutBusinessService.logout(authorization);
+        LogoutResponse logoutResponse = new LogoutResponse();
+        logoutResponse.setMessage("LOGGED OUT SUCCESSFULLY");
+        logoutResponse.setId(loggedoutUserEntity.getUuid());
+        return new ResponseEntity<LogoutResponse>(logoutResponse,HttpStatus.OK);
+
+    }
+
 
 
 

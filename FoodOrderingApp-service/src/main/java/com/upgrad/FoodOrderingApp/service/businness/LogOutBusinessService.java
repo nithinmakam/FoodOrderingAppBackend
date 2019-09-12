@@ -18,20 +18,23 @@ public class LogOutBusinessService {
     @Autowired
     private CustomerDao customerDao;
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public CustomerEntity logout(final String authorizationToken) throws AuthorizationFailedException {
+    @Autowired
+    private AuthTokenValidityService authTokenValidityService;
 
-        CustomerAuthEntity customerAuthEntity = customerDao.getUserAuthToken(authorizationToken);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerEntity logout(final String Access_Token) throws AuthorizationFailedException {
+
+        CustomerAuthEntity customerAuthEntity = customerDao.getCustomerAuthToken(Access_Token);
 
         if(customerAuthEntity == null){
             throw new AuthorizationFailedException("ATHR-001","Customer is not Logged in");
         }
 
-        else if (isLoggedOut(customerAuthEntity)){
+        else if (authTokenValidityService.isLoggedOut(customerAuthEntity)){
             throw new AuthorizationFailedException("ATHR-002", "Customer is logged out. Log in again to access this endpoint.");
         }
 
-        else if (isExpired(customerAuthEntity)){
+        else if (authTokenValidityService.isExpired(customerAuthEntity)){
             throw new AuthorizationFailedException("ATHR-003", "Your session is expired. Log in again to access the endpoint");
         }
         else{
@@ -41,12 +44,4 @@ public class LogOutBusinessService {
         return customerAuthEntity.getCustomer_id();
     }
 
-    private boolean isExpired(final CustomerAuthEntity customerAuthEntity) {
-        final ZonedDateTime now = DateTimeProvider.currentProgramTime();
-        return customerAuthEntity != null && (customerAuthEntity.getExpires_at().isBefore(now) || customerAuthEntity.getExpires_at().isEqual(now));
-    }
-
-    private boolean isLoggedOut(final CustomerAuthEntity customerAuthEntity) {
-        return customerAuthEntity != null && customerAuthEntity.getLogout_at() != null;
-    }
 }

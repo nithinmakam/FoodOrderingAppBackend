@@ -57,20 +57,4 @@ public class CustomerDao {
     public void updateCustomerEntity(final CustomerAuthEntity customerAuthEntity) {
         entityManager.merge(customerAuthEntity);
     }
-
-    public CustomerAuthEntity getCustomerLogoutTime(final String logout_at) {
-        try {
-            return entityManager.createNamedQuery("customerByLogoutAt", CustomerAuthEntity.class).setParameter("logout_at", logout_at).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
-    public CustomerAuthEntity getCustomerSessionExpiresAt(final String expires_at) {
-        try {
-            return entityManager.createNamedQuery("customerByExpiresAt", CustomerAuthEntity.class).setParameter("expires_at", expires_at).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
 }

@@ -37,22 +37,6 @@ public class CustomerDao {
         }
     }
 
-    public CustomerEntity getCustomerByFirstName(final String firstname) {
-        try {
-            return entityManager.createNamedQuery("customerByFirstName", CustomerEntity.class).setParameter("firstname", firstname).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
-    public CustomerEntity getCustomerByLastName(final String lastname) {
-        try {
-            return entityManager.createNamedQuery("customerByLastName", CustomerEntity.class).setParameter("lastname", lastname).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
     public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthEntity) {
         entityManager.persist(customerAuthEntity);
         return customerAuthEntity;

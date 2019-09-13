@@ -37,6 +37,10 @@ public class CustomerDao {
         }
     }
 
+//    public void updateCustomerPassword(final CustomerEntity customerEntity) {
+//        entityManager.merge(customerEntity);
+//    }
+
     public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthEntity) {
         entityManager.persist(customerAuthEntity);
         return customerAuthEntity;

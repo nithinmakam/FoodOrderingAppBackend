@@ -1,10 +1,7 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.upgrad.FoodOrderingApp.api.model.*;
-import com.upgrad.FoodOrderingApp.service.businness.LoginAuthenticationBusinessService;
-import com.upgrad.FoodOrderingApp.service.businness.LogOutBusinessService;
-import com.upgrad.FoodOrderingApp.service.businness.SignUpBusinessService;
-import com.upgrad.FoodOrderingApp.service.businness.UpdateCustomerBusinessService;
+import com.upgrad.FoodOrderingApp.service.businness.*;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
@@ -24,6 +21,7 @@ import java.util.UUID;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 public class CustomerController {
@@ -40,6 +38,9 @@ public class CustomerController {
 
     @Autowired
     private UpdateCustomerBusinessService updateCustomerBusinessService;
+
+    @Autowired
+    private UpdatePasswordBusinessService updatePasswordBusinessService;
 
     //1. signup endpoint
     @RequestMapping(method = RequestMethod.POST, path="/customer/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -103,4 +104,16 @@ public class CustomerController {
         return new ResponseEntity(updateCustomerResponse, HttpStatus.OK);
     }
 
+//    //5.change password endpoint
+//    @RequestMapping(method = PUT, path = "/customer/password", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+//    public ResponseEntity<UpdatePasswordRequest> updatePassword(@RequestHeader("authorization") String authorization)
+//            throws UpdateCustomerException, AuthorizationFailedException {
+//
+//        String[] bearerToken = authorization.split("Bearer");
+//        CustomerEntity updatePasswordEntity = updatePasswordBusinessService.updatePassword(bearerToken[1]);
+//        UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse();
+//        updatePasswordResponse.setId(updatePasswordEntity.getUuid());
+//        updatePasswordResponse.setStatus("CUSTOMER DETAILS UPDATED SUCCESSFULLY");
+//        return new ResponseEntity(updatePasswordResponse, HttpStatus.OK);
+//    }
 }

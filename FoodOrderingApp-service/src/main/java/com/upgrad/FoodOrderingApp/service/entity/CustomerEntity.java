@@ -52,6 +52,10 @@ public class CustomerEntity implements Serializable{
     @Size(max = 255)
     private String password;
 
+//    @NotNull
+//    @Size(max = 255)
+//    private String newPassword;
+
     @Column(name = "salt")
     @NotNull
     @Size(max = 200)
@@ -114,4 +118,8 @@ public class CustomerEntity implements Serializable{
         this.salt = salt;
     }
 
+//    public String getNewPassword(){return newPassword;}
+//    public void setNewPassword(String newPassword) {
+//        this.newPassword = newPassword;
+//    }
 }

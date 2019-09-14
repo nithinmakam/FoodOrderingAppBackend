@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 @Service
 public class SignUpBusinessService {
 
-
     @Autowired
     public static boolean isValid(String email)
     {
@@ -38,11 +37,11 @@ public class SignUpBusinessService {
         customerEntity.setPassword(encryptedText[1]);
         if (customerDao.getCustomerByContactNumber(customerEntity.getContactNumber()) != null) {
             throw new SignUpRestrictedException("SGR-001", "This contact number is already registered! Try another contact number.");
-        } else if (!isValid(customerEntity.getEmail()))  {
+        } else if (isValid(customerEntity.getEmail()) == false)  {
             throw new SignUpRestrictedException("SGR-002", "Invalid email-id format!");
-        } else if (customerEntity.getContactNumber() != "^$|[0-9]{10}") {
+        } else if (customerEntity.getContactNumber() == "^$|[0-9]{10}") {
             throw new SignUpRestrictedException("SGR-003", "Invalid contact number");
-        } else if (customerEntity.getPassword() != "(?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,16})" ){
+        } else if (customerEntity.getPassword() == "(?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,16})" ){
             throw new SignUpRestrictedException("SGR-004", "Weak password!");
         } else if (customerEntity.getFirstName()== null || customerEntity.getEmail()== null || customerEntity.getContactNumber()== null || customerEntity.getPassword() == null) {
             throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled!");

@@ -37,22 +37,24 @@ public class CustomerDao {
         }
     }
 
-//    public void updateCustomerPassword(final CustomerEntity customerEntity) {
-//        entityManager.merge(customerEntity);
-//    }
+    public CustomerEntity updatePassword(CustomerEntity customerEntity) {
+        entityManager.merge(customerEntity);
+        return customerEntity;
+    }
 
     public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthEntity) {
         entityManager.persist(customerAuthEntity);
         return customerAuthEntity;
     }
 
-    public void updateCustomer(final CustomerEntity customerEntity) {
+    public CustomerEntity updateCustomer(final CustomerEntity customerEntity) {
         entityManager.merge(customerEntity);
+        return customerEntity;
     }
 
     public CustomerAuthEntity getCustomerAuthToken(final String access_token) {
         try {
-            return entityManager.createNamedQuery("customerAuthTokenByAccessToken", CustomerAuthEntity.class).setParameter("access_token", access_token).getSingleResult();
+            return entityManager.createNamedQuery("customerAuthTokenByAccessToken", CustomerAuthEntity.class).setParameter("accessToken", access_token).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }

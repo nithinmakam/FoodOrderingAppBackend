@@ -10,11 +10,16 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 @Entity
 @Table(name = "customer_auth")
 @NamedQueries({
-        @NamedQuery(name = "customerAuthTokenByAccessToken", query = "select ut from CustomerAuthEntity ut where ut.access_token = :access_token "),
+        @NamedQuery(name = "customerAuthTokenByAccessToken", query = "select ut from CustomerAuthEntity ut where ut.accessToken = :accessToken "),
         @NamedQuery(name="customerAuthTokenByUuid",query="select ut from CustomerAuthEntity ut where ut.uuid = :uuid")
 })
 public class CustomerAuthEntity implements Serializable {
@@ -32,12 +37,12 @@ public class CustomerAuthEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private CustomerEntity customer_id;
+    private CustomerEntity customer;
 
     @Column(name = "access_token")
     @NotNull
     @Size(max = 500)
-    private String access_token;
+    private String accessToken;
 
     @Column(name = "login_at")
     @NotNull
@@ -64,18 +69,18 @@ public class CustomerAuthEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    public CustomerEntity getCustomer_id() {
-        return customer_id;
+    public CustomerEntity getCustomer() {
+        return customer;
     }
-    public void setCustomer_id(CustomerEntity customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public ZonedDateTime getLogin_at() {
@@ -99,6 +104,19 @@ public class CustomerAuthEntity implements Serializable {
         this.expires_at = expires_at;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().append(this, obj).isEquals();
+    }
 
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
 
 }

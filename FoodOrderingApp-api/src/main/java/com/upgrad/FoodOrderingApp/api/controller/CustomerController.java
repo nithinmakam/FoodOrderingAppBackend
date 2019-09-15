@@ -1,6 +1,6 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
-/*import com.upgrad.FoodOrderingApp.api.model.*;
+import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.*;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
@@ -111,4 +111,4 @@ public class CustomerController {
         updatePasswordResponse.setStatus("CUSTOMER DETAILS UPDATED SUCCESSFULLY");
         return new ResponseEntity(updatePasswordResponse, HttpStatus.OK);
     }
-}*/
+}

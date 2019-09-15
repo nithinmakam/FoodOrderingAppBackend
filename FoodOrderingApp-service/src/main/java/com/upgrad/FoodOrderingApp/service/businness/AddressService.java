@@ -1,3 +1,4 @@
+
 package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.AddressDao;
@@ -141,8 +142,10 @@ public class AddressService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public AddressEntity deleteAddress(AddressEntity addressEntity) {
-
         addressEntity.setActive(0);
         return addressDao.updateAddressEntity(addressEntity);
     }
 }
+
+}
+

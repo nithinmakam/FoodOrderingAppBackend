@@ -2,7 +2,6 @@ package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.AddressDao;
 import com.upgrad.FoodOrderingApp.service.dao.CustomerAddressDao;
-import com.upgrad.FoodOrderingApp.service.dao.OrderDao;
 import com.upgrad.FoodOrderingApp.service.dao.StateDao;
 import com.upgrad.FoodOrderingApp.service.entity.*;
 import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
@@ -133,4 +132,17 @@ public class AddressService {
         return addressEntity;
     }
 
+    /**
+     * Deletes given address entity
+     *
+     * @param addressEntity Address to delete
+     *
+     * @return AddressEntity object
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public AddressEntity deleteAddress(AddressEntity addressEntity) {
+
+        addressEntity.setActive(0);
+        return addressDao.updateAddressEntity(addressEntity);
+    }
 }

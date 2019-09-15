@@ -28,6 +28,14 @@ public class GlobalExceptionHandler extends Exception {
                 new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()), HttpStatus.FORBIDDEN
         );
     }
+
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorResponse> resourceNotFoundException(CouponNotFoundException exe , WebRequest request){
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()), HttpStatus.FORBIDDEN
+        );
+    }
+
     @ExceptionHandler(UpdateCustomerException.class)
     public ResponseEntity<ErrorResponse> unauthorizedException(UpdateCustomerException exe , WebRequest request){
 
